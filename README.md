@@ -35,5 +35,3 @@ npm run dev
 
 Em seguida irá aparecer o link para acesso localmente, clicar com o botão esquerdo do mouse segurando a tecla CTRL e acessar livremente.
 Em seguida clicar no link de localhost, para abrir a pagina localmente.
-
-E
