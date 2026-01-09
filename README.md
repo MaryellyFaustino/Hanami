@@ -29,9 +29,13 @@ vermelho presente na página inicial.
 Para rodar o arquivo localmente, primeiro é preciso baixar pelo link de download do Git e extrair a pasta.
 Abrir a pasta Hanami pelo VS Code.
 Abrir o terminal e dar os comandos:
+
 cd hanami-main
+
 npm install
+
 npm run dev
 
 Em seguida irá aparecer o link para acesso localmente, clicar com o botão esquerdo do mouse segurando a tecla CTRL e acessar livremente.
 Em seguida clicar no link de localhost, para abrir a pagina localmente.
+
