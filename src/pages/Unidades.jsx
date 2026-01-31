@@ -1,5 +1,47 @@
 import React, { useState } from "react";
 
+const Botao = ({ children, onClick, disabled = false }) => {
+  const [hover, setHover] = React.useState(false);
+
+  const estiloBotao = {
+    ...styles.buttonBase,
+    ...(disabled
+      ? styles.buttonDisabled
+      : hover
+      ? styles.buttonHover
+      : styles.buttonNormal),
+  };
+
+  return (
+    <button
+      style={estiloBotao}
+      onClick={onClick}
+      disabled={disabled}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {children}
+    </button>
+  );
+};
+
+const Modal = ({ aberto, onClose, children }) => {
+  if (!aberto) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        {children}
+
+        <button className="modal-button" onClick={onClose}>
+          Fechar
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
 const unidades = {
   Tempo: ["Horas", "Minutos", "Segundos"],
   Peso: ["Toneladas","Quilogramas","Hectogramas","Decagramas","Gramas","Decigramas","Centigramas","Miligramas"],
@@ -46,6 +88,8 @@ const Unidades = () => {
   const [para, setPara] = useState(unidades["Tempo"][1]);
   const [resultado, setResultado] = useState("");
 
+  const [modalAberto, setModalAberto] = useState(false);
+
   const handleConverter = () => {
     const valorNum = parseFloat(valor);
 
@@ -57,7 +101,9 @@ const Unidades = () => {
     const base = valorNum * fatores[categoria][de];
     const convertido = base / fatores[categoria][para];
 
-    setResultado(`${convertido.toPrecision(8)} ${para}`);
+    const resultadoFormatado = convertido.toLocaleString("pt-BR", {maximumFractionDigits: 6});
+    setResultado(`${resultadoFormatado} ${para}`);
+    setModalAberto(true);
   };
 
   return (
@@ -113,13 +159,25 @@ const Unidades = () => {
         </div>
 
         {/* BOTÃO CONVERTER */}
-        <button style={styles.button} onClick={handleConverter}>
-          Converter
-        </button>
+      <Botao
+  onClick={handleConverter}
+  disabled={!valor}
+>
+  Converter
+</Botao>
 
-        {resultado && (
-          <p style={styles.result}>{resultado}</p>
-        )}
+       <Modal
+  aberto={modalAberto}
+  onClose={() => setModalAberto(false)}
+>
+  <h2 style={{ color: "#000", textAlign: "center" }}>
+    Resultado
+  </h2>
+
+  <p style={{ fontSize: "1.2rem", textAlign: "center" }}>
+    {resultado}
+  </p>
+</Modal>
       </div>
     </main>
   );
